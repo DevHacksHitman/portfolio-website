@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import Navbar from "./sections/Navbar.jsx";
 import Hero from "./sections/Hero.jsx";
 import About from "./sections/About.jsx";
@@ -6,6 +7,8 @@ import Clients from "./sections/Clients.jsx"
 import Contact from "./sections/Contact.jsx";
 import Footer from "./sections/Footer.jsx";
 import Experience from "./sections/Experience.jsx";
+
+const TrackRecord = lazy(() => import("./sections/TrackRecord.jsx"));
 
 const App = () => {
     return(
@@ -16,6 +19,9 @@ const App = () => {
             <Projects />
             <Clients />
             <Experience />
+            <Suspense fallback={<div className="h-40" />}>
+                <TrackRecord />
+            </Suspense>
             <Contact />
             <Footer />
         </main>

@@ -12,10 +12,22 @@ const LIT = new THREE.Color("#3fb950");
 const PawGrid = ({ progressRef, count, width }) => {
   const mesh = useRef();
   const revealAt = useRef(new Array(count).fill(-1));
-  const dummy = useMemoObject3D();
-  const color = useRef(new THREE.Color());
+  const dummy = useRef(new THREE.Object3D()).current;
+  const color = useRef(new THREE.Color(DIM));
 
-  const pads = useMemoPads(count, width);
+  const pads = useRef(
+    (() => {
+      const list = [];
+      for (let i = 0; i < count; i++) {
+        const t = count === 1 ? 0 : i / (count - 1);
+        list.push({
+          x: THREE.MathUtils.lerp(-width / 2 + 0.8, width / 2 - 0.8, t) - 0.12,
+          z: i % 2 === 0 ? 0.17 : -0.17,
+        });
+      }
+      return list;
+    })()
+  ).current;
 
   useLayoutEffect(() => {
     if (!mesh.current) return;
@@ -47,6 +59,8 @@ const PawGrid = ({ progressRef, count, width }) => {
         const pop = Math.max(0, 1 - (now - since) * 1.4);
         scale = 1 + pop * 0.6;
         color.current.copy(LIT).multiplyScalar(0.55 + pop * 0.9);
+      } else {
+        color.current.copy(DIM);
       }
       im.setColorAt(i, color.current);
       dummy.position.set(pads[i].x, 0.012, pads[i].z);
@@ -66,23 +80,5 @@ const PawGrid = ({ progressRef, count, width }) => {
     </instancedMesh>
   );
 };
-
-const useMemoObject3D = () =>
-  useRef(new THREE.Object3D()).current;
-
-const useMemoPads = (count, width) =>
-  useRef(
-    (() => {
-      const list = [];
-      for (let i = 0; i < count; i++) {
-        const t = count === 1 ? 0 : i / (count - 1);
-        list.push({
-          x: THREE.MathUtils.lerp(-width / 2 + 0.8, width / 2 - 0.8, t) - 0.12,
-          z: i % 2 === 0 ? 0.17 : -0.17,
-        });
-      }
-      return list;
-    })()
-  ).current;
 
 export default PawGrid;

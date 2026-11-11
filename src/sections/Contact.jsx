@@ -1,16 +1,17 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { identity } from "../constants/index.js";
 
 const Contact = () => {
   const formRef = useRef();
 
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" });
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
   });
-  // , , pub -->
 
   const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
@@ -20,6 +21,7 @@ const Contact = () => {
     e.preventDefault();
 
     setLoading(true);
+    setStatus({ type: "", message: "" });
 
     try {
       await emailjs.send(
@@ -27,44 +29,39 @@ const Contact = () => {
         "template_nlmsci5",
         {
           from_name: form.name,
-          to_name: "Kik",
+          to_name: identity.name,
           from_email: form.email,
-          to_email: "devhacksassassin@gmail.com",
+          to_email: identity.email,
           message: form.message,
         },
         "HOfB__RZK9GYJqCh0"
       );
       setLoading(false);
-
-      alert("Your message has been sent!");
-
-      setForm({
-        name: "",
-        email: "",
-        message: "",
-      });
+      setStatus({ type: "success", message: "Your message has been sent." });
+      setForm({ name: "", email: "", message: "" });
     } catch (error) {
-      setLoading(false);
       console.log(error);
-      alert("Something went wrong, sorry!");
+      setLoading(false);
+      setStatus({
+        type: "error",
+        message: "Something went wrong — please try again, or email me directly.",
+      });
     }
   };
 
   return (
     <section id="contact" className="c-space my-20">
       <div className="relative min-h-screen flex items-center justify-center flex-col">
-        <img
-          src="/assets/terminal.png"
-          alt="terminal background"
-          className="absolute inset-0 min-h-screen"
+        <div
+          className="absolute inset-0 min-h-screen bg-[radial-gradient(60%_50%_at_50%_20%,rgba(63,185,80,0.10),transparent_70%)]"
+          aria-hidden="true"
         />
         <div className="contact-container">
-          <h3 className="head-text">Get in touch!</h3>
+          <h2 className="head-text">Get in touch</h2>
           <p className="text-lg text-white-600 mt-3">
-            Whether you're working on existing projects or exploring new ideas,
-            including websites and Web3 ventures, I'm here to bring your vision
-            to life. Reach out, and let's collaborate on creating something
-            exceptional.
+            Tell me about the role, the project, or the problem you're working
+            on. I'm happy to talk backend, data and AI-agent work — and I'll
+            reply honestly about fit.
           </p>
 
           <form
@@ -72,52 +69,75 @@ const Contact = () => {
             onSubmit={handleSubmit}
             className="mt-12 flex flex-col space-y-7"
           >
-            <label className="space-y-3">
-              <span className="field-label">Full Name</span>
+            <div className="space-y-3">
+              <label htmlFor="name" className="field-label block">
+                Full Name
+              </label>
               <input
+                id="name"
                 type="text"
                 name="name"
                 value={form.name}
                 onChange={handleChange}
                 required
+                autoComplete="name"
                 className="field-input"
                 placeholder="Albert Einstein"
               />
-            </label>
-            <label className="space-y-3">
-              <span className="field-label">Email</span>
+            </div>
+            <div className="space-y-3">
+              <label htmlFor="email" className="field-label block">
+                Email
+              </label>
               <input
-                type="text"
+                id="email"
+                type="email"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
                 required
+                autoComplete="email"
                 className="field-input"
                 placeholder="alberteinstein@gmail.com"
               />
-            </label>
-            <label className="space-y-3">
-              <span className="field-label">Your message</span>
+            </div>
+            <div className="space-y-3">
+              <label htmlFor="message" className="field-label block">
+                Your message
+              </label>
               <textarea
+                id="message"
                 name="message"
                 value={form.message}
                 onChange={handleChange}
                 required
                 rows={5}
                 className="field-input"
-                placeholder="Hi Kik, I have got a job for you..."
+                placeholder="Tell me about the role or the project..."
               />
-            </label>
+            </div>
 
             <button className="field-btn" type="submit" disabled={loading}>
-              {loading ? "sending..." : "Send Message"}
+              {loading ? "Sending..." : "Send Message"}
 
               <img
                 src="/assets/arrow-up.png"
-                alt="arrow-up"
+                alt=""
                 className="field-btn_arrow"
               />
             </button>
+
+            <p
+              role="status"
+              aria-live="polite"
+              className={
+                status.type === "error"
+                  ? "text-[#f59e0b]"
+                  : "text-[#3fb950]"
+              }
+            >
+              {status.message}
+            </p>
           </form>
         </div>
       </div>

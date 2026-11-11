@@ -49,9 +49,9 @@ const TrackRecord = () => {
       style={{ height: "320vh" }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <h3 className="head-text absolute top-24 left-0 w-full text-center">
+        <h2 className="head-text absolute top-24 left-0 w-full text-center">
           Track Record
-        </h3>
+        </h2>
         <p className="absolute top-40 left-0 w-full text-center text-white-600">
           Every print is a shipped commit.
         </p>

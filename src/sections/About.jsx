@@ -1,105 +1,128 @@
 import Globe from "react-globe.gl";
-import Button from "../components/Button.jsx";
 import { useState } from "react";
+import Button from "../components/Button.jsx";
+import { identity } from "../constants/index.js";
 
 const About = () => {
-    const [hasCopied, setHasCopied] = useState(false);
+  const [hasCopied, setHasCopied] = useState(false);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText('devhacksassassin@gmail.com');
-
-    setHasCopied(true);
-
-    setTimeout(() => {
-        setHasCopied(false);
-    }, 2000)
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(identity.email);
+      setHasCopied(true);
+      setTimeout(() => setHasCopied(false), 2000);
+    } catch {
+      setHasCopied(false);
     }
-    return (
-        <section className="c-space my-20" id="about" >
-            <div className="grid xl:grid-cols-3 xl:grid-rows-6 md:grid-cols-2 grid-cols-1 gap-5 h-full">
-                <div className="col-span-1 xl:row-span-3">
-                    <div className="grid-container">
-                        <img src="/assets/grid1.png" alt="grid-1" className="w-full sm:h-[276px] h-fit object-contain" />
+  };
 
-                        <div>
-                            <p className="grid-headtext">Hi, I'm Kik</p>
-                            <p className="grid-subtext">I am a FullStack developer with over 5 years experience in frontend and backend development. I have worked on various projects including 3D websites, interactive apps and Web3 decentralized applications (DApps)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-span-1 xl:row-span-3">
-                    <div className="grid-container">
-                        <img src="/assets/grid2.png" alt="grid-2" className="w-full sm:w-[276px] h-fit object-contain" />
-                        <div>
-                            <p className="grid-headtext">
-                                Tech Stack
-                            </p>
-                            <p className="grid-subtext">
-                                I specialize in Javascript/Typescript, the React library and Next.js Framework, as well as Web3 programming languages Solidity, Func and Web3.js.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-span-1 xl:row-span-4">
-                    <div className="grid-container">
-                        <div className="rounded-3xl w-full h-fit flex justify-center items-center">
-                            <Globe
-                                height={326}
-                                width={326}
-                                backgroundColor="rgba(0,0,0,0)"
-                                backgroundImageOpacity={0.5}
-                                showAtmosphere
-                                showGraticules
-                                globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-                                bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-                                labelsData={[{
-                                    lat: 52, lng: 5,
-                                    text: "I am here!",
-                                    color: 'white',
-                                    size: 30,
-                                }]}
-                            />
-                        </div>
-                        <div>
-                            <p className="grid-headtext">
-                                I work remotely across major timezones.
-                            </p>
-                            <p className="grid-subtext">
-                                I am based in The Netherlands and available for remote work.
-                            </p>
-                            <Button name="Contact me" isBeam containerClass="w-full mt-10" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="xl:col-span-2 xl:row-span-3">
-                    <div className="grid-container">
-                        <img src="/assets/grid3.png" alt="grid-3" className="w-full sm:h-[266px] h-fit object-contain"/>
-                        <div>
-                            <p className="grid-headtext">I love and enjoy Coding!</p>
-                            <p className="grid-subtext">Coding is more than a profession for me - It's my way of life. I am passionate about building things through code.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="xl:col-span-1 xl:row-span-2">
-                    <div className="grid-container">
-                        <img src="/assets/grid4.png" alt="grid-4" className="w-full md:h-[126px] sm:h-[276px] h-fit object-cover sm:object-top" />
-                        <div className="space-y-2">
-                            <p className="grid-subtext text-center">Contact me</p>
-                            <div className="copy-container" onClick={handleCopy}>
-                                <img src={hasCopied ? 'assets/tick.svg' : 'assets/copy.svg'} alt="copy" />
-                                <p className="lg:text-2xl md:text-xl font-medium text-gray_gradient text-white">devhacksassassin@gmail.com</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+  return (
+    <section className="c-space my-20" id="about">
+      <div className="grid xl:grid-cols-3 xl:grid-rows-6 md:grid-cols-2 grid-cols-1 gap-5 h-full">
+        <div className="col-span-1 xl:row-span-3">
+          <div className="grid-container">
+            <div className="h-1 w-16 rounded-full bg-[#3fb950]" aria-hidden="true" />
+            <div>
+              <h2 className="grid-headtext">Hi, I'm {identity.name}</h2>
+              <p className="grid-subtext">
+                I'm a software engineer based in Ibadan, Nigeria. I hold a B.Sc.Ed
+                (Biology) from the University of Ilorin and I now build backend
+                systems, real-time data pipelines and AI-agent tooling. I work in
+                Python and Rust, I've shipped Web3 work in Solidity and Tact, and
+                I'm currently building a Telegram Mini App in Go on the GRAM
+                blockchain.
+              </p>
             </div>
-        </section>
-    )
-}
+          </div>
+        </div>
 
-export default About
+        <div className="col-span-1 xl:row-span-3">
+          <div className="grid-container">
+            <div className="h-1 w-16 rounded-full bg-[#3fb950]" aria-hidden="true" />
+            <div>
+              <h2 className="grid-headtext">Tech Stack</h2>
+              <p className="grid-subtext">
+                Python (standard library first, asyncio) · Rust (axum, Tokio,
+                SQLx) · TypeScript and React 18 · Go · Solidity and Tact · Solana
+                and EVM tooling · AI-agent tooling (MCP, browser automation).
+                Every line above is backed by a repository you can read.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-span-1 xl:row-span-4">
+          <div className="grid-container">
+            <div className="rounded-3xl w-full h-fit flex justify-center items-center" aria-hidden="true">
+              <Globe
+                height={326}
+                width={326}
+                backgroundColor="rgba(0,0,0,0)"
+                backgroundImageOpacity={0.5}
+                showAtmosphere
+                showGraticules
+                globeImageUrl="/textures/earth-night.jpg"
+                bumpImageUrl="/textures/earth-topology.png"
+                labelsData={[
+                  {
+                    lat: 7.3775,
+                    lng: 3.947,
+                    text: "Ibadan, Nigeria",
+                    color: "white",
+                    size: 30,
+                  },
+                ]}
+              />
+            </div>
+            <div>
+              <h2 className="grid-headtext">
+                Open to remote work and relocation.
+              </h2>
+              <p className="grid-subtext">
+                I'm in Ibadan, Nigeria — WAT (UTC+1), which overlaps comfortably
+                with European mornings and US-East afternoons.
+              </p>
+              <Button name="Contact me" isBeam href="#contact" containerClass="w-full mt-10" />
+            </div>
+          </div>
+        </div>
+
+        <div className="xl:col-span-2 xl:row-span-3">
+          <div className="grid-container">
+            <div className="h-1 w-16 rounded-full bg-[#3fb950]" aria-hidden="true" />
+            <div>
+              <h2 className="grid-headtext">I came to software from teaching.</h2>
+              <p className="grid-subtext">
+                I came to software from teaching — and I still teach: every repo
+                I ship has a README that explains the why, not just the how.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="xl:col-span-1 xl:row-span-2">
+          <div className="grid-container">
+            <div className="space-y-2 w-full">
+              <p className="grid-subtext text-center">Contact me</p>
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="copy-container w-full min-h-11"
+              >
+                <img src={hasCopied ? "/assets/tick.svg" : "/assets/copy.svg"} alt="" />
+                <span className="lg:text-xl md:text-lg font-medium text-white break-all">
+                  {identity.email}
+                </span>
+              </button>
+              <span role="status" aria-live="polite" className="sr-only">
+                {hasCopied ? "Email address copied to clipboard" : ""}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;

@@ -1,29 +1,33 @@
+import { identity } from "../constants/index.js";
+
 const Footer = () => {
-    return (
-        <section className="c-space pt-7 pb-3 border-t border-black-300 flex justify-between items-center flex-wrap gap-5">
-            <div className="text-white-500 flex gap-3">
-                <p>Terms & Conditions</p>
-                <p>|</p>
-                <p>Privacy Policy</p>
-            </div>
+  const links = [
+    { label: "GitHub", href: identity.github },
+    { label: "Telegram", href: identity.telegram },
+    { label: "LinkedIn", href: identity.linkedin },
+  ];
 
-            <div className="flex gap-2">
-                <div className="social-icon">
-                    <img src="/assets/github.svg" alt="Github" className="w-1/2 h-1/2"/>
-                </div>
-                <div className="social-icon">
-                    <img src="/assets/twitter.svg" alt="Twitter" className="w-1/2 h-1/2" />
-                </div>
-                <div className="social-icon">
-                    <img src="/assets/instagram.svg" alt="Instagram" className="w-1/2 h-1/2" />
-                </div>
-            </div>
+  return (
+    <footer className="c-space pt-7 pb-3 border-t border-black-300 flex justify-between items-center flex-wrap gap-5">
+      <div className="flex gap-4 text-white-600">
+        {links.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
 
-            <p className="text-white-500">
-                &copy; 2024 Kik. All rights reserved.
-            </p>
-        </section>
-    )
-}
+      <p className="text-white-600">
+        &copy; 2026 {identity.name}. Built and designed by me.
+      </p>
+    </footer>
+  );
+};
 
 export default Footer;

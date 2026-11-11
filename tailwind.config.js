@@ -20,7 +20,7 @@ export default {
           800: '#E4E4E6',
           700: '#D6D9E9',
           600: '#AFB0B6',
-          500: '#62646C',
+          500: '#8A8C94',
         },
       },
       backgroundImage: {

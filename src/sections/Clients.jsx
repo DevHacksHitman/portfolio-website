@@ -9,7 +9,7 @@ const Clients = () => {
             <div className="client-container">
                 {clientReviews.map(({id, name, position, img, review}) => (
                     <div key={id} className="client-review">
-                        <p className="text-white font-light">
+                        <div className="text-white font-light">
                             {review}
 
                             <div className="client-content">
@@ -31,7 +31,7 @@ const Clients = () => {
                                     ))}
                                 </div>
                             </div>
-                        </p>
+                        </div>
                     </div>
                 ))}
             </div>

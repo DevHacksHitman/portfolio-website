@@ -1,10 +1,11 @@
 export const identity = {
-  name: "Animashaun Ayomitide",
+  name: "Ayomitide Animashaun",
   fullName: "Animashaun Abdulazeez Arowolo",
   role: "Software Engineer",
   location: "Ibadan, Nigeria",
   timezone: "WAT (UTC+1)",
   email: "devhacksassassin@gmail.com",
+  phone: "+234 814 803 1558",
   github: "https://github.com/DevHacksHitman",
   linkedin: "https://www.linkedin.com/in/ayomitide-animashaun-3523693b0/",
   telegram: "https://t.me/kriev_mev",
@@ -83,18 +84,26 @@ export const workExperiences = [
   },
   {
     id: 2,
-    name: "Cipher Protocol",
-    pos: "Technical writer · Web3 contributor",
-    duration: "2024",
+    name: "Freelance Web3 development",
+    pos: "Independent contractor",
+    duration: "Selected contracts",
     title:
-      "Technical writing and documentation for a privacy-focused Web3 project (closed after a short run). Wrote developer-facing explanations of the protocol's concepts and flows.",
+      "Staking contracts and dApp interfaces on EVM chains (Binance Smart Chain, Ethereum), memecoin project sites, and technical writing for privacy-focused protocols including Cipher Protocol. Also ran community channels for several of these projects.",
   },
   {
     id: 3,
+    name: "Biology, Mathematics & Chemistry tutor",
+    pos: "Private coaching & licensed coaching centres",
+    duration: "2012 – 2015",
+    title:
+      "Private lessons in Enugu and group tutorials for UTME and A-Level candidates in Ibadan. The teaching habit never left: it is why every repository I ship has a README that explains the why.",
+  },
+  {
+    id: 4,
     name: "University of Ilorin",
     pos: "B.Sc.Ed (Biology)",
-    duration: "20XX – 20XX",
+    duration: "2009 – 2012",
     title:
-      "Biology education degree — the origin of a teaching habit that carried into software: I still explain the why in every README I write.",
+      "Biology education degree, followed by NYSC (2012/2013). The science training and the classroom years are what I bring to systems work: state the claim, show the evidence, explain the method.",
   },
 ];

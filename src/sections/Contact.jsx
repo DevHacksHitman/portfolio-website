@@ -60,8 +60,8 @@ const Contact = () => {
           <div className="contact-container">
             <h2 className="head-text">Get in touch</h2>
             <p className="text-lead text-white-600 mt-3">
-            Tell me about the role, the project, or the problem you're working
-            on. I'm happy to talk backend, data and AI-agent work — and I'll
+            Tell me about the role, the project, or the problem you&apos;re working
+            on. I&apos;m happy to talk backend, data and agentic work — and I&apos;ll
             reply honestly about fit.
           </p>
 

@@ -32,6 +32,10 @@ export default [
       ...reactHooks.configs.recommended.rules,
       'react/jsx-no-target-blank': 'off',
       'react/no-unknown-property': 'off',
+      // The components are internal to a static site and written in plain
+      // JavaScript. Runtime prop validation would ship a runtime dependency
+      // for no benefit; the prop shapes live in the component signatures.
+      'react/prop-types': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },

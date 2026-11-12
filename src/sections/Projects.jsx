@@ -98,6 +98,18 @@ const Projects = () => {
               repo={currentProject.art.repo}
               lines={currentProject.art.lines}
             />
+          ) : currentProject.art?.kind === "image" ? (
+            <figure className="relative h-full w-full overflow-hidden">
+              <img
+                src={currentProject.art.src}
+                alt={currentProject.art.alt}
+                className="h-full w-full object-cover object-top"
+                loading="lazy"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent px-4 pb-3 pt-8 text-[10px] uppercase tracking-[0.2em] text-white-600/80">
+                {currentProject.art.label}
+              </span>
+            </figure>
           ) : (
             <div className="flex h-full w-full items-center justify-center gap-6 p-8">
               <span className="text-7xl font-black tracking-tight text-white-800/15">

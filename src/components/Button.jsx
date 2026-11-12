@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 const Button = ({ name, isBeam = false, containerClass, href }) => {
   const content = (
     <>

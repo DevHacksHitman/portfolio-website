@@ -30,22 +30,10 @@ export const myProjects = [
       "The interesting part is the threat model: a loopback-only Host allowlist that never auto-trusts the bind address, atomic cancel semantics under a single mutex, a bounded task registry, and a mocked-subprocess test suite that proves the cancel race cannot be lost.",
     href: "https://github.com/DevHacksHitman/hundjager",
     art: {
-      kind: "terminal",
-      label: "hundjager — server.py --help",
-      status: "exit 0",
-      repo: "github.com/DevHacksHitman/hundjager",
-      lines: [
-        "$ python3 app/server.py --help",
-        "usage: server.py [-h] [--host HOST] [--port PORT]",
-        "                 [--downloads-dir DOWNLOADS_DIR] [--allow-hosts ALLOW_HOSTS]",
-        "",
-        "Hundjäger Media Hub - Apex Stream Extractor",
-        "",
-        "options:",
-        "  -h, --help            show this help message and exit",
-        "  --host HOST           Binding host (default: 127.0.0.1)",
-        "  --port PORT           Binding port (default: 5050)",
-      ],
+      kind: "image",
+      src: "/assets/projects/hundjager.png",
+      label: "hundjager — media hub",
+      alt: "The Hundjäger media hub: a URL inspector for any supported video link, an active yt-dlp engine badge, and the live download progress panel.",
     },
     tags: [
       { id: 1, name: "Python (stdlib)" },
@@ -113,6 +101,86 @@ export const myProjects = [
       { id: 4, name: "WebSocket" },
     ],
   },
+  {
+    title: "Halo — non-custodial mutual aid on Base",
+    desc: "An autonomous mutual aid fund: donors grant scoped MetaMask permissions, an AI verifier checks receipts, and separate agent lanes keep verifier and treasurer authority apart. Payout state comes from the relayer, never from a claim in the UI.",
+    subdesc:
+      "Built for the MetaMask Smart Accounts Kit x 1Shot API x Venice AI Dev Cook Off. The boundary is written down: paid state is only rendered when the relayer confirms it, and mainnet wording stays gated until the send is terminal.",
+    href: "https://github.com/DevHacksHitman/HALO",
+    art: {
+      kind: "image",
+      src: "/assets/projects/halo.png",
+      label: "halo — build dashboard",
+      alt: "The Halo build dashboard: the autonomous mutual aid pitch, the demo lane with MetaMask, Venice, x402, A2A and 1Shot status, and a local proof log.",
+    },
+    tags: [
+      { id: 1, name: "Next.js" },
+      { id: 2, name: "Solidity / Foundry" },
+      { id: 3, name: "Agent A2A" },
+      { id: 4, name: "Base Sepolia" },
+    ],
+  },
+  {
+    title: "history-scan — secrets scanner for git history",
+    desc: "A zero-dependency scanner that walks a repository's whole commit history, the staged change or the working tree, and finds credential shapes, personal data and high-entropy strings — redacting every match it reports.",
+    subdesc:
+      "The redaction is the point: a scanner that prints the secret it found has just leaked it into your CI log. Findings show a prefix and a length, the value never leaves the machine, and SARIF output drops straight into a code-scanning pipeline.",
+    href: "https://github.com/DevHacksHitman/history-scan",
+    art: {
+      kind: "terminal",
+      label: "history-scan — self-scan",
+      status: "exit 0",
+      repo: "github.com/DevHacksHitman/history-scan",
+      lines: [
+        "$ python3 history_scan.py --repo . --worktree",
+        "PASS — no findings in working tree.",
+        "",
+        "$ python3 history_scan.py --repo .",
+        "PASS — no findings in git history.",
+      ],
+    },
+    tags: [
+      { id: 1, name: "Python (stdlib)" },
+      { id: 2, name: "SARIF" },
+      { id: 3, name: "CI" },
+      { id: 4, name: "Zero deps" },
+    ],
+  },
+  {
+    title: "records-quality-audit — records validator with an audit trail",
+    desc: "A zero-dependency validator for CSV, TSV and Excel files that checks duplicates, missing required fields, malformed dates, out-of-range numbers and unexpected codes — then appends one JSON line recording exactly what was checked.",
+    subdesc:
+      "The sha256 in that line ties a result to one exact file, not to a filename, so the log is evidence rather than a note. Excel is read straight out of the zip, so there is no pandas and no install step.",
+    href: "https://github.com/DevHacksHitman/records-quality-audit",
+    art: {
+      kind: "terminal",
+      label: "records-quality-audit — cli",
+      status: "exit 0",
+      repo: "github.com/DevHacksHitman/records-quality-audit",
+      lines: [
+        "$ python3 records_audit.py records.csv --rules rules.json",
+        "FINDINGS — 8 in records.csv (2 record(s), 8 column(s))",
+        "",
+        "     row 3  [format] date_of_birth does not match date",
+        "            value: not-a-date",
+        "     row 3  [allowed] gender is not one of: Male, Female",
+        "            value: Unknown",
+        "     row 3  [range] age is outside 0–120",
+        "            value: 200",
+        "     row 3  [unique] duplicate of row 2",
+        "            value: 1001",
+        "    column  [pii] column looks like personal data (2 row(s))",
+        "",
+        "Summary: allowed=1, format=1, pii=1, range=1, unique=1",
+      ],
+    },
+    tags: [
+      { id: 1, name: "Python (stdlib)" },
+      { id: 2, name: "CSV / XLSX" },
+      { id: 3, name: "SHA-256" },
+      { id: 4, name: "Audit trail" },
+    ],
+  },
 ];
 
 export const calculateSizes = (isSmall, isMobile, isTablet) => {
@@ -155,17 +223,17 @@ export const workExperiences = [
     id: 1,
     name: "Open-Source Software Engineering",
     pos: "Freelance",
-    duration: "2020 – present",
+    duration: "2023 – present",
     title:
-      "Hundjäger, the Solana market-data tracker and its MCP server: designed, built, tested and documented in public. Work includes a local-HTTP threat model, race-free cancellation, CI matrices and a pre-push gate that blocks sensitive material before it reaches history.",
+      "Six repositories in the open: a loopback-only media inspector and downloader, a market-data monitor for Solana, an MCP server that gives AI agents read-only access to that store, a secrets scanner for git history, a records auditor that leaves an append-only trail, and Halo, a non-custodial mutual aid fund on Base Sepolia. Each one is designed, built, tested and documented in public — threat models, race-free cancellation, CI matrices, and a pre-push gate that blocks sensitive material before it reaches history.",
   },
   {
     id: 2,
     name: "Freelance Web3 development",
     pos: "Independent contractor",
-    duration: "Selected contracts",
+    duration: "2017-2023",
     title:
-      "Staking contracts and dApp interfaces on EVM chains (Binance Smart Chain, Ethereum), memecoin project sites, and technical writing for notable privacy-focused Web3 protocols. Also ran community channels for several of these projects.",
+      "Staking contracts and dApp interfaces on EVM chains (Binance Smart Chain, Ethereum), Web3 project sites, and technical writing for notable privacy-focused Web3 protocols. Also ran community channels for several of these projects.",
   },
   {
     id: 3,
@@ -173,7 +241,7 @@ export const workExperiences = [
     pos: "Private coaching & licensed coaching centres",
     duration: "2013 – 2017",
     title:
-      "Private lessons and group tutorials for Advanced classes. The teaching habit never left, it is why every repository I ship has a README that explains the why.",
+      "Private lessons and group tutorials for A'Level students. The teaching habit never left, it is why every repository I ship has a README that explains the why.",
   },
   {
     id: 4,

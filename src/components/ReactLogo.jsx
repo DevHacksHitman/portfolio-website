@@ -4,11 +4,12 @@ import { useMemo } from 'react';
 const ReactLogo = (props) => {
     const { nodes, materials } = useGLTF('/models/react.glb')
 
-    // Dimmed so the atom reads as background, never competing with the hero text (WCAG AA).
+    // Dimmed a little so the atom reads as background, never competing with the
+    // hero text (WCAG AA). The scrim covers it where it does cross the text.
     const dimmed = useMemo(() => {
         const material = materials['Material.002'].clone();
-        material.color.multiplyScalar(0.6);
-        if (material.emissive) material.emissiveIntensity = 0.2;
+        material.color.multiplyScalar(0.8);
+        if (material.emissive) material.emissiveIntensity = 0.35;
         return material;
     }, [materials]);
 

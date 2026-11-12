@@ -23,9 +23,6 @@ export default {
           500: '#8A8C94',
         },
       },
-      backgroundImage: {
-        terminal: "url('/assets/terminal.png')",
-      },
     },
   },
   plugins: [],

@@ -1,6 +1,5 @@
 import { Canvas } from "@react-three/fiber";
 import { useMemo } from "react";
-import * as THREE from "three";
 import Pack from "./Pack.jsx";
 import PawGrid from "./PawGrid.jsx";
 

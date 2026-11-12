@@ -23,13 +23,13 @@ const About = () => {
           <div className="grid-container">
             <div className="h-1 w-16 rounded-full bg-[#3fb950]" aria-hidden="true" />
             <div>
-              <h2 className="grid-headtext">Hi, I'm {identity.name}</h2>
+              <h2 className="grid-headtext">Hi, I&apos;m {identity.name}</h2>
               <p className="grid-subtext">
-                I'm a software engineer based in Ibadan, Nigeria. I hold a B.Sc.Ed
+                I&apos;m a software engineer based in Ibadan, Nigeria. I hold a B.Sc.Ed
                 (Biology) from the University of Ilorin and I now build backend
-                systems, real-time data pipelines and AI-agent tooling. I work in
-                Python and Rust, I've shipped Web3 work in Solidity and Tact, and
-                I'm currently building a Telegram Mini App in Go on the GRAM
+                systems, real-time data pipelines and agentic tooling. I work in
+                Python and Rust, I&apos;ve shipped Web3 work in Solidity and Tact, and
+                I&apos;m currently building a Telegram Mini App in Go on the GRAM
                 blockchain.
               </p>
             </div>
@@ -43,7 +43,7 @@ const About = () => {
               <h2 className="grid-headtext">Tech Stack</h2>
               <p className="grid-subtext">
                 Python · Rust · JavaScript/TypeScript · Go · Solidity and Tact · Solana
-                and EVM tooling · AI-agent tooling (MCP). Every line above is backed by a
+                and EVM tooling · Agentic tooling. Every line above is backed by a
                 repository you can read.
               </p>
             </div>
@@ -78,7 +78,7 @@ const About = () => {
                 Open to remote work and relocation.
               </h2>
               <p className="grid-subtext">
-                I'm in Ibadan, Nigeria — WAT (UTC+1), which overlaps comfortably
+                I&apos;m in Ibadan, Nigeria — WAT (UTC+1), which overlaps comfortably
                 with European mornings and US-East afternoons.
               </p>
               <Button name="Contact me" isBeam href="#contact" containerClass="w-full mt-10" />

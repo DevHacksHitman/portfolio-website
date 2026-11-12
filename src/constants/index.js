@@ -80,19 +80,10 @@ export const myProjects = [
       "Honest scope: this is a market-data monitor, not a trading system. The free-tier limits are documented at three layers, and the listener stores what the RPC actually returned rather than inferring values it never saw.",
     href: "https://github.com/DevHacksHitman/solana-liquidity-stream-tracker",
     art: {
-      kind: "terminal",
-      label: "solana-liquidity-stream-tracker — test_setup.py",
-      status: "exit 0",
-      repo: "github.com/DevHacksHitman/solana-liquidity-stream-tracker",
-      lines: [
-        "$ python3 test_setup.py",
-        "--- Python environment check ---",
-        "OK: Python 3.10 or higher.",
-        "",
-        "$ python3 -m unittest discover -s tests -t .",
-        "Ran 18 tests in 0.033s",
-        "OK (skipped=1)",
-      ],
+      kind: "image",
+      src: "/assets/projects/tracker-ticker.png",
+      label: "solana-liquidity-stream-tracker — web interface",
+      alt: "The tracker's web interface: the project title, its description panel and the status badges for the pipeline, the schema and the frontend.",
     },
     tags: [
       { id: 1, name: "Python (asyncio)" },

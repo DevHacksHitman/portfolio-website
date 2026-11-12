@@ -1,7 +1,9 @@
-import Globe from "react-globe.gl";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Button from "../components/Button.jsx";
+import LazyMount from "../components/LazyMount.jsx";
 import { identity } from "../constants/index.js";
+
+const Globe = lazy(() => import("react-globe.gl"));
 
 const About = () => {
   const [hasCopied, setHasCopied] = useState(false);
@@ -52,27 +54,35 @@ const About = () => {
 
         <div className="col-span-1 xl:row-span-4">
           <div className="grid-container">
-            <div className="rounded-3xl w-full h-fit flex justify-center items-center" aria-hidden="true">
-              <Globe
-                height={326}
-                width={326}
-                backgroundColor="rgba(0,0,0,0)"
-                backgroundImageOpacity={0.5}
-                showAtmosphere
-                showGraticules
-                globeImageUrl="/textures/earth-night.jpg"
-                bumpImageUrl="/textures/earth-topology.png"
-                labelsData={[
-                  {
-                    lat: 7.3775,
-                    lng: 3.947,
-                    text: "Ibadan, Nigeria",
-                    color: "white",
-                    size: 30,
-                  },
-                ]}
-              />
-            </div>
+            <LazyMount
+              className="rounded-3xl w-full h-[326px] flex justify-center items-center"
+              aria-hidden="true"
+              placeholder={
+                <div className="h-[326px] w-full animate-pulse rounded-3xl bg-black-300/40" />
+              }
+            >
+              <Suspense fallback={<div className="h-[326px] w-full" />}>
+                <Globe
+                  height={326}
+                  width={326}
+                  backgroundColor="rgba(0,0,0,0)"
+                  backgroundImageOpacity={0.5}
+                  showAtmosphere
+                  showGraticules
+                  globeImageUrl="/textures/earth-night.jpg"
+                  bumpImageUrl="/textures/earth-topology.png"
+                  labelsData={[
+                    {
+                      lat: 7.3775,
+                      lng: 3.947,
+                      text: "Ibadan, Nigeria",
+                      color: "white",
+                      size: 30,
+                    },
+                  ]}
+                />
+              </Suspense>
+            </LazyMount>
             <div>
               <h2 className="grid-headtext">
                 Open to remote work and relocation.

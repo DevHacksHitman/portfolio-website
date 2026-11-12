@@ -6,6 +6,7 @@ import Projects from "./sections/Projects.jsx";
 import Contact from "./sections/Contact.jsx";
 import Footer from "./sections/Footer.jsx";
 import Experience from "./sections/Experience.jsx";
+import Reveal from "./components/Reveal.jsx";
 
 const TrackRecord = lazy(() => import("./sections/TrackRecord.jsx"));
 
@@ -21,13 +22,21 @@ const App = () => {
       <Navbar />
       <main id="main" className="max-w-7xl mx-auto">
         <Hero />
-        <About />
-        <Projects />
-        <Experience />
+        <Reveal>
+          <About />
+        </Reveal>
+        <Reveal>
+          <Projects />
+        </Reveal>
+        <Reveal>
+          <Experience />
+        </Reveal>
         <Suspense fallback={<div className="h-40" />}>
           <TrackRecord />
         </Suspense>
-        <Contact />
+        <Reveal>
+          <Contact />
+        </Reveal>
       </main>
       <Footer />
     </>

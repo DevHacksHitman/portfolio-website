@@ -42,10 +42,9 @@ const About = () => {
             <div>
               <h2 className="grid-headtext">Tech Stack</h2>
               <p className="grid-subtext">
-                Python (standard library first, asyncio) · Rust (axum, Tokio,
-                SQLx) · TypeScript and React 18 · Go · Solidity and Tact · Solana
-                and EVM tooling · AI-agent tooling (MCP, browser automation).
-                Every line above is backed by a repository you can read.
+                Python · Rust · JavaScript/TypeScript · Go · Solidity and Tact · Solana
+                and EVM tooling · AI-agent tooling (MCP). Every line above is backed by a
+                repository you can read.
               </p>
             </div>
           </div>
@@ -93,7 +92,7 @@ const About = () => {
             <div>
               <h2 className="grid-headtext">I came to software from teaching.</h2>
               <p className="grid-subtext">
-                I came to software from teaching — and I still teach: every repo
+                I came to software from teaching, and I still teach: every repo
                 I ship has a README that explains the why, not just the how.
               </p>
             </div>

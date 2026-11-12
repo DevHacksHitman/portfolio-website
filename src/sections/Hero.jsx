@@ -20,20 +20,9 @@ const Hero = () => {
   const sizes = calculateSizes(isSmall, isMobile, isTablet);
 
   return (
-    <section id="home" className="min-h-screen w-full flex flex-col relative">
-      <div className="w-full mx-auto flex flex-col sm:mt-36 mt-20 c-space gap-4">
-        <h1 className="sm:text-3xl text-2xl font-medium text-white text-center font-generalSans">
-          Hi, I'm {identity.name} <span className="waving-hand">👋</span>
-        </h1>
-        <p className="hero_tag text-gray_gradient">Building your Big Ideas into Code</p>
-        <p className="text-center text-white-600 text-base sm:text-lg max-w-2xl mx-auto">
-          Backend and data engineering — real-time pipelines, on-chain market data and
-          AI-agent tooling — with the frontend craft to ship it end to end.
-        </p>
-      </div>
-
-      {/* THREE.js initializing...! */}
-      <div className="w-full h-full absolute inset-0">
+    <section id="home" className="min-h-screen w-full flex flex-col relative overflow-hidden">
+      {/* Scene sits behind everything and never intercepts the pointer. */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <Canvas className="w-full h-full" aria-hidden="true">
           <Suspense fallback={<CanvasLoader />}>
             <PerspectiveCamera makeDefault position={[0, 0, 20]} />
@@ -59,7 +48,35 @@ const Hero = () => {
         </Canvas>
       </div>
 
-      <div className="absolute bottom-7 left-0 right-0 w-full z-10 c-space flex flex-col sm:flex-row items-center justify-center gap-4">
+      {/* Scrim: darkens only the area behind the headline block. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-[68%] z-10 pointer-events-none bg-[radial-gradient(75%_60%_at_50%_18%,rgba(1,1,3,0.94)_0%,rgba(1,1,3,0.72)_45%,rgba(1,1,3,0)_78%)]"
+      />
+
+      <div className="relative z-20 w-full mx-auto flex flex-col sm:mt-32 mt-24 c-space gap-4">
+        <h1
+          className="sm:text-3xl text-2xl font-medium text-white text-center font-generalSans"
+          style={{ textShadow: "0 2px 28px rgba(0,0,0,0.92)" }}
+        >
+          Hi, I'm {identity.name} <span className="waving-hand">👋</span>
+        </h1>
+        <p
+          className="hero_tag text-gray_gradient"
+          style={{ filter: "drop-shadow(0 3px 26px rgba(0,0,0,0.95))" }}
+        >
+          Building your Big Ideas into Code
+        </p>
+        <p
+          className="text-center text-white-700 text-base sm:text-lg max-w-2xl mx-auto"
+          style={{ textShadow: "0 2px 20px rgba(0,0,0,0.95)" }}
+        >
+          Backend and data engineering — real-time pipelines, on-chain market data and
+          AI-agent tooling — with the frontend craft to ship it end to end.
+        </p>
+      </div>
+
+      <div className="absolute bottom-7 left-0 right-0 w-full z-20 c-space flex flex-col sm:flex-row items-center justify-center gap-4">
         <Button
           name="Let's BUILD together !"
           isBeam

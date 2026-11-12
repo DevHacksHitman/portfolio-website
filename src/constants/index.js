@@ -64,21 +64,45 @@ export const myProjects = [
 
 export const calculateSizes = (isSmall, isMobile, isTablet) => {
   return {
-    deskScale: isSmall ? 0.05 : isMobile ? 0.06 : 0.065,
-    deskPosition: isMobile ? [0.5, -4.5, 0] : [0.25, -5.5, 0],
-    cubePosition: isSmall ? [4, -5, 0] : isMobile ? [5, -5, 0] : isTablet ? [5, -5, 0] : [9, -5.5, 0],
-    reactLogoPosition: isSmall ? [3, 4, 0] : isMobile ? [5, 4, 0] : isTablet ? [5, 4, 0] : [12, 3, 0],
-    ringPosition: isSmall ? [-5, 7, 0] : isMobile ? [-10, 10, 0] : isTablet ? [-12, 10, 0] : [-24, 10, 0],
-    targetPosition: isSmall ? [-5, -10, -10] : isMobile ? [-9, -10, -10] : isTablet ? [-11, -7, -10] : [-13, -13, -10],
+    deskScale: isSmall ? 0.045 : isMobile ? 0.052 : 0.058,
+    deskPosition: isMobile ? [0.5, -6.2, 0] : [0.25, -7.2, 0],
+    cubePosition: isSmall
+      ? [4, -5, 0]
+      : isMobile
+        ? [5, -5, 0]
+        : isTablet
+          ? [5, -5, 0]
+          : [9, -5.5, 0],
+    reactLogoPosition: isSmall
+      ? [3, 4, 0]
+      : isMobile
+        ? [5, 4, 0]
+        : isTablet
+          ? [5, 4, 0]
+          : [12, 3, 0],
+    ringPosition: isSmall
+      ? [-5, 7, 0]
+      : isMobile
+        ? [-10, 10, 0]
+        : isTablet
+          ? [-12, 10, 0]
+          : [-24, 10, 0],
+    targetPosition: isSmall
+      ? [-5, -10, -10]
+      : isMobile
+        ? [-9, -10, -10]
+        : isTablet
+          ? [-11, -7, -10]
+          : [-13, -13, -10],
   };
 };
 
 export const workExperiences = [
   {
     id: 1,
-    name: "Open-source software engineering",
-    pos: "Self-directed",
-    duration: "2024 – present",
+    name: "Open-Source Software Engineering",
+    pos: "Freelance",
+    duration: "2020 – present",
     title:
       "Hundjäger, the Solana market-data tracker and its MCP server: designed, built, tested and documented in public. Work includes a local-HTTP threat model, race-free cancellation, CI matrices and a pre-push gate that blocks sensitive material before it reaches history.",
   },
@@ -88,15 +112,15 @@ export const workExperiences = [
     pos: "Independent contractor",
     duration: "Selected contracts",
     title:
-      "Staking contracts and dApp interfaces on EVM chains (Binance Smart Chain, Ethereum), memecoin project sites, and technical writing for privacy-focused protocols including Cipher Protocol. Also ran community channels for several of these projects.",
+      "Staking contracts and dApp interfaces on EVM chains (Binance Smart Chain, Ethereum), memecoin project sites, and technical writing for notable privacy-focused Web3 protocols. Also ran community channels for several of these projects.",
   },
   {
     id: 3,
     name: "Biology, Mathematics & Chemistry tutor",
     pos: "Private coaching & licensed coaching centres",
-    duration: "2012 – 2015",
+    duration: "2013 – 2017",
     title:
-      "Private lessons in Enugu and group tutorials for UTME and A-Level candidates in Ibadan. The teaching habit never left: it is why every repository I ship has a README that explains the why.",
+      "Private lessons and group tutorials for Advanced classes. The teaching habit never left, it is why every repository I ship has a README that explains the why.",
   },
   {
     id: 4,

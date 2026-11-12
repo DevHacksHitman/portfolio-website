@@ -18,8 +18,10 @@ export const navLinks = [
   { id: 4, name: "Contact", href: "#contact" },
 ];
 
-// Real, public repositories. Project art is deliberately asset-free for now:
-// screenshots land in a later pass, once the owner has approved them.
+// Real, public repositories. The card art is the real terminal output of each
+// project's own command, rendered as live HTML rather than a screenshot: these
+// projects are CLIs and servers, so a transcript is the honest picture of them.
+// A project with a real browser UI can supply `art.image` instead.
 export const myProjects = [
   {
     title: "Hundjäger — media stream inspector & download server",
@@ -27,6 +29,24 @@ export const myProjects = [
     subdesc:
       "The interesting part is the threat model: a loopback-only Host allowlist that never auto-trusts the bind address, atomic cancel semantics under a single mutex, a bounded task registry, and a mocked-subprocess test suite that proves the cancel race cannot be lost.",
     href: "https://github.com/DevHacksHitman/hundjager",
+    art: {
+      kind: "terminal",
+      label: "hundjager — server.py --help",
+      status: "exit 0",
+      repo: "github.com/DevHacksHitman/hundjager",
+      lines: [
+        "$ python3 app/server.py --help",
+        "usage: server.py [-h] [--host HOST] [--port PORT]",
+        "                 [--downloads-dir DOWNLOADS_DIR] [--allow-hosts ALLOW_HOSTS]",
+        "",
+        "Hundjäger Media Hub - Apex Stream Extractor",
+        "",
+        "options:",
+        "  -h, --help            show this help message and exit",
+        "  --host HOST           Binding host (default: 127.0.0.1)",
+        "  --port PORT           Binding port (default: 5050)",
+      ],
+    },
     tags: [
       { id: 1, name: "Python (stdlib)" },
       { id: 2, name: "HTTP" },
@@ -40,6 +60,24 @@ export const myProjects = [
     subdesc:
       "Read-only by construction: the SQLite backend is opened with a read-only URI and the connection is closed before serving begins, so no database handle exists while an agent is connected. 971 lines, three modules, 59 tests with zero network calls.",
     href: "https://github.com/DevHacksHitman/solana-liquidity-mcp",
+    art: {
+      kind: "terminal",
+      label: "solana-liquidity-mcp — smoke client",
+      status: "all checks passed",
+      repo: "github.com/DevHacksHitman/solana-liquidity-mcp",
+      lines: [
+        "$ python3 scripts/mcp_smoke_client.py",
+        "MCP stdio smoke test",
+        "  [PASS] initialize negotiates a protocol version — 2025-06-18",
+        "  [PASS] tools/list returns 5 tools — got 5",
+        "  [PASS] liquidity_snapshot returns text — 84 events, 4 mints",
+        "  [PASS] pipeline_status reports dedupe integrity",
+        "  [PASS] resources/read returns the schema",
+        "  [PASS] unknown tool is a JSON-RPC error",
+        "",
+        "ALL CHECKS PASSED",
+      ],
+    },
     tags: [
       { id: 1, name: "Python (stdlib)" },
       { id: 2, name: "MCP" },
@@ -53,6 +91,21 @@ export const myProjects = [
     subdesc:
       "Honest scope: this is a market-data monitor, not a trading system. The free-tier limits are documented at three layers, and the listener stores what the RPC actually returned rather than inferring values it never saw.",
     href: "https://github.com/DevHacksHitman/solana-liquidity-stream-tracker",
+    art: {
+      kind: "terminal",
+      label: "solana-liquidity-stream-tracker — test_setup.py",
+      status: "exit 0",
+      repo: "github.com/DevHacksHitman/solana-liquidity-stream-tracker",
+      lines: [
+        "$ python3 test_setup.py",
+        "--- Python environment check ---",
+        "OK: Python 3.10 or higher.",
+        "",
+        "$ python3 -m unittest discover -s tests -t .",
+        "Ran 18 tests in 0.033s",
+        "OK (skipped=1)",
+      ],
+    },
     tags: [
       { id: 1, name: "Python (asyncio)" },
       { id: 2, name: "SQLite" },

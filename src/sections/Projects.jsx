@@ -1,5 +1,6 @@
 import { myProjects } from "../constants/index.js";
 import { useState } from "react";
+import TerminalCard from "../components/TerminalCard.jsx";
 
 const projectCount = myProjects.length;
 
@@ -23,7 +24,22 @@ const Projects = () => {
         <div className="flex flex-col gap-5 relative sm:p-10 py-10 px-5 shadow-2xl shadow-black-200 border border-black-300 rounded-lg">
           <div className="flex flex-col gap-5 text-white-600 my-5">
             <h3 className="text-white text-2xl font-semibold">
-              {currentProject.title}
+              {/* Stretched link: the whole card is one click-through to the
+                  repository, while the buttons and the explicit link below
+                  stay on top of it. */}
+              <a
+                href={currentProject.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-start gap-2 transition-colors hover:text-white after:absolute after:inset-0 after:content-[''] after:rounded-lg"
+              >
+                {currentProject.title}
+                <img
+                  src="/assets/arrow-up.png"
+                  alt=""
+                  className="mt-1 w-3 h-3 opacity-0 transition-opacity group-hover:opacity-100"
+                />
+              </a>
             </h3>
             <p>{currentProject.desc}</p>
             <p>{currentProject.subdesc}</p>
@@ -41,7 +57,7 @@ const Projects = () => {
           </div>
 
           <a
-            className="flex items-center gap-2 cursor-pointer text-white-600 hover:text-white transition-colors w-fit min-h-11"
+            className="relative z-10 flex items-center gap-2 cursor-pointer text-white-600 hover:text-white transition-colors w-fit min-h-11"
             href={currentProject.href}
             target="_blank"
             rel="noopener noreferrer"
@@ -50,7 +66,7 @@ const Projects = () => {
             <img src="/assets/arrow-up.png" alt="" className="w-3 h-3" />
           </a>
 
-          <div className="flex justify-between items-center mt-7">
+          <div className="relative z-10 flex justify-between items-center mt-7">
             <button
               className="arrow-btn min-h-11 min-w-11"
               onClick={() => handleNavigation("previous")}
@@ -68,18 +84,31 @@ const Projects = () => {
           </div>
         </div>
 
-        <div
-          className="relative border border-black-300 bg-black-200 rounded-lg h-96 md:h-full flex flex-col items-center justify-center gap-6 p-8 overflow-hidden"
-          aria-hidden="true"
+        <a
+          href={currentProject.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`View ${currentProject.title} on GitHub`}
+          className="group relative border border-black-300 bg-black-200 rounded-lg h-96 md:h-full flex flex-col overflow-hidden transition-colors hover:border-black-400"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_40%,rgba(63,185,80,0.16),transparent_70%)]" />
-          <span className="relative text-7xl font-black tracking-tight text-white-800/15">
-            {String(selectedProjectIndex + 1).padStart(2, "0")}
-          </span>
-          <p className="relative text-white-600 text-xs uppercase tracking-[0.3em] text-center">
-            {currentProject.title.split(" — ")[0]}
-          </p>
-        </div>
+          {currentProject.art?.kind === "terminal" ? (
+            <TerminalCard
+              label={currentProject.art.label}
+              status={currentProject.art.status}
+              repo={currentProject.art.repo}
+              lines={currentProject.art.lines}
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center gap-6 p-8">
+              <span className="text-7xl font-black tracking-tight text-white-800/15">
+                {String(selectedProjectIndex + 1).padStart(2, "0")}
+              </span>
+              <p className="text-white-600 text-xs uppercase tracking-[0.3em] text-center">
+                {currentProject.title.split(" — ")[0]}
+              </p>
+            </div>
+          )}
+        </a>
       </div>
     </section>
   );

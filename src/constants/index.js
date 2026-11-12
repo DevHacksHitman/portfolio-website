@@ -7,7 +7,7 @@ export const identity = {
   email: "devhacksassassin@gmail.com",
   phone: "+234 814 803 1558",
   github: "https://github.com/DevHacksHitman",
-  linkedin: "https://www.linkedin.com/in/ayomitide-animashaun-3523693b0/",
+  linkedin: "https://www.linkedin.com/in/abdulazeez-animashaun-3523693b0/",
   telegram: "https://t.me/kriev_mev",
 };
 

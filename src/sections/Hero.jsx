@@ -70,7 +70,7 @@ const Hero = () => {
           Building your Big Ideas into Code
         </p>
         <p
-          className="text-center text-white-700 text-base sm:text-lg max-w-2xl mx-auto"
+          className="text-center text-white-700 text-lead max-w-2xl mx-auto"
           style={{ textShadow: "0 2px 20px rgba(0,0,0,0.95)" }}
         >
           Backend and data engineering — real-time pipelines, on-chain market data and

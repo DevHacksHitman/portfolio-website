@@ -56,9 +56,10 @@ const Contact = () => {
           className="absolute inset-0 min-h-screen bg-[radial-gradient(60%_50%_at_50%_20%,rgba(63,185,80,0.10),transparent_70%)]"
           aria-hidden="true"
         />
-        <div className="contact-container">
-          <h2 className="head-text">Get in touch</h2>
-          <p className="text-lg text-white-600 mt-3">
+        <div className="relative z-10 w-full max-w-6xl grid lg:grid-cols-2 gap-10 items-start mt-12">
+          <div className="contact-container">
+            <h2 className="head-text">Get in touch</h2>
+            <p className="text-lead text-white-600 mt-3">
             Tell me about the role, the project, or the problem you're working
             on. I'm happy to talk backend, data and AI-agent work — and I'll
             reply honestly about fit.
@@ -139,6 +140,50 @@ const Contact = () => {
               {status.message}
             </p>
           </form>
+          </div>
+
+          <aside className="contact-details" aria-label="Direct contact details">
+            <p className="contact-details_label">Email</p>
+            <a
+              className="contact-details_value hover:text-white transition-colors"
+              href={`mailto:${identity.email}`}
+            >
+              {identity.email}
+            </a>
+
+            <p className="contact-details_label">Location</p>
+            <p className="contact-details_value">
+              {identity.location} · {identity.timezone}
+            </p>
+
+            <p className="contact-details_label">Elsewhere</p>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              <a
+                className="contact-details_link"
+                href={identity.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub ↗
+              </a>
+              <a
+                className="contact-details_link"
+                href={identity.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn ↗
+              </a>
+              <a
+                className="contact-details_link"
+                href={identity.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Telegram ↗
+              </a>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

@@ -21,9 +21,9 @@ const Projects = () => {
       <h2 className="head-text">Selected work</h2>
 
       <div className="grid lg:grid-cols-2 grid-cols-1 mt-12 gap-5 w-full">
-        <div className="flex flex-col gap-5 relative sm:p-10 py-10 px-5 shadow-2xl shadow-black-200 border border-black-300 rounded-lg">
+        <div className="flex flex-col justify-between gap-5 relative sm:p-10 py-10 px-5 shadow-2xl shadow-black-200 border border-black-300 rounded-lg transition-colors hover:border-black-500 hover:bg-black-300/20">
           <div className="flex flex-col gap-5 text-white-600 my-5">
-            <h3 className="text-white text-2xl font-semibold">
+            <h3 className="text-white text-subtitle font-semibold">
               {/* Stretched link: the whole card is one click-through to the
                   repository, while the buttons and the explicit link below
                   stay on top of it. */}
@@ -49,7 +49,7 @@ const Projects = () => {
             {currentProject.tags.map((tag) => (
               <span
                 key={tag.id}
-                className="text-xs text-white-600 border border-black-300 rounded-full px-3 py-1"
+                className="text-meta text-white-600 border border-black-300 rounded-full px-3 py-1"
               >
                 {tag.name}
               </span>
@@ -89,7 +89,7 @@ const Projects = () => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`View ${currentProject.title} on GitHub`}
-          className="group relative border border-black-300 bg-black-200 rounded-lg h-96 md:h-full flex flex-col overflow-hidden transition-colors hover:border-black-400"
+          className="group relative border border-black-300 bg-black-200 rounded-lg h-96 md:h-full flex flex-col overflow-hidden transition-colors hover:border-black-500"
         >
           {currentProject.art?.kind === "terminal" ? (
             <TerminalCard

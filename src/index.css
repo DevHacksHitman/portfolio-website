@@ -8,6 +8,12 @@
   scroll-behavior: smooth;
 }
 
+html {
+  /* The header is fixed and 80px tall. The extra 24px absorbs the layout
+     shift when the webfont swaps in after an anchor scroll is computed. */
+  scroll-padding-top: 104px;
+}
+
 :focus-visible {
   outline: 2px solid #3fb950;
   outline-offset: 2px;

@@ -24,7 +24,8 @@ const Hero = () => {
       {/* Scene sits behind everything and never intercepts the pointer. */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Canvas className="w-full h-full" aria-hidden="true">
-          <Suspense fallback={<CanvasLoader />}>
+          {/* The loader lives outside the R3F tree — see CanvasLoader.jsx. */}
+          <Suspense fallback={null}>
             <PerspectiveCamera makeDefault position={[0, 0, 20]} />
 
             <HeroCamera isMobile={isMobile}>
@@ -46,12 +47,13 @@ const Hero = () => {
             <directionalLight position={[10, 10, 10]} intensity={0.5} />
           </Suspense>
         </Canvas>
+        <CanvasLoader />
       </div>
 
       {/* Scrim: darkens only the area behind the headline block. */}
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[68%] z-10 pointer-events-none bg-[radial-gradient(75%_60%_at_50%_18%,rgba(1,1,3,0.94)_0%,rgba(1,1,3,0.72)_45%,rgba(1,1,3,0)_78%)]"
+        className="absolute inset-x-0 top-0 h-[72%] z-10 pointer-events-none bg-[radial-gradient(120%_85%_at_50%_24%,rgba(1,1,3,0.96)_0%,rgba(1,1,3,0.9)_55%,rgba(1,1,3,0.62)_100%)]"
       />
 
       <div className="relative z-20 w-full mx-auto flex flex-col sm:mt-32 mt-24 c-space gap-4">

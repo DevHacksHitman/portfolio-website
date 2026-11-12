@@ -49,7 +49,8 @@ const Ring = ({ position }) => {
                 {Array.from({ length: 4 }, (_, index) => (
                     <mesh key={index} ref={getRef}>
                         <torusGeometry args={[(index + 1) * 0.5, 0.1]}></torusGeometry>
-                        <meshMatcapMaterial matcap={texture} toneMapped={false} />
+                        {/* Dimmed so the ring reads as background, never competing with the hero text (WCAG AA). */}
+                        <meshMatcapMaterial matcap={texture} toneMapped={false} color="#999999" />
                     </mesh>
                 ))}
             </group>

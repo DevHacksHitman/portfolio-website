@@ -1,6 +1,6 @@
 export const identity = {
-  name: "Ayomitide Animashaun",
-  fullName: "Animashaun Abdulazeez Arowolo",
+  name: "AbdulAzeez Animashaun",
+  fullName: "AbdulAzeez Arowolo Animashaun",
   role: "Software Engineer",
   location: "Ibadan, Nigeria",
   timezone: "WAT (UTC+1)",

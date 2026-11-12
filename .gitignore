@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local secrets and agent artifacts
+.env
+.env.*
+.playwright-mcp/
+private_docs/
+*.local.md
+*.plan.md

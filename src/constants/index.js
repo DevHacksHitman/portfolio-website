@@ -112,21 +112,21 @@ export const myProjects = [
     ],
   },
   {
-    title: "history-scan — secrets scanner for git history",
+    title: "GitScan — secrets scanner for git history",
     desc: "A zero-dependency scanner that walks a repository's whole commit history, the staged change or the working tree, and finds credential shapes, personal data and high-entropy strings — redacting every match it reports.",
     subdesc:
       "The redaction is the point: a scanner that prints the secret it found has just leaked it into your CI log. Findings show a prefix and a length, the value never leaves the machine, and SARIF output drops straight into a code-scanning pipeline.",
-    href: "https://github.com/DevHacksHitman/history-scan",
+    href: "https://github.com/DevHacksHitman/git-scan",
     art: {
       kind: "terminal",
-      label: "history-scan — self-scan",
+      label: "GitScan — self-scan",
       status: "exit 0",
-      repo: "github.com/DevHacksHitman/history-scan",
+      repo: "github.com/DevHacksHitman/git-scan",
       lines: [
-        "$ python3 history_scan.py --repo . --worktree",
+        "$ python3 git_scan.py --repo . --worktree",
         "PASS — no findings in working tree.",
         "",
-        "$ python3 history_scan.py --repo .",
+        "$ python3 git_scan.py --repo .",
         "PASS — no findings in git history.",
       ],
     },
@@ -138,16 +138,16 @@ export const myProjects = [
     ],
   },
   {
-    title: "records-quality-audit — records validator with an audit trail",
+    title: "Records Quality Auditor — records validator with an audit trail",
     desc: "A zero-dependency validator for CSV, TSV and Excel files that checks duplicates, missing required fields, malformed dates, out-of-range numbers and unexpected codes — then appends one JSON line recording exactly what was checked.",
     subdesc:
       "The sha256 in that line ties a result to one exact file, not to a filename, so the log is evidence rather than a note. Excel is read straight out of the zip, so there is no pandas and no install step.",
-    href: "https://github.com/DevHacksHitman/records-quality-audit",
+    href: "https://github.com/DevHacksHitman/records-quality-auditor",
     art: {
       kind: "terminal",
-      label: "records-quality-audit — cli",
+      label: "Records Quality Auditor — cli",
       status: "exit 0",
-      repo: "github.com/DevHacksHitman/records-quality-audit",
+      repo: "github.com/DevHacksHitman/records-quality-auditor",
       lines: [
         "$ python3 records_audit.py records.csv --rules rules.json",
         "FINDINGS — 8 in records.csv (2 record(s), 8 column(s))",

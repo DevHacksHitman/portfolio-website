@@ -231,7 +231,7 @@ export const workExperiences = [
     id: 2,
     name: "Freelance Web3 development",
     pos: "Independent contractor",
-    duration: "2017-2023",
+    duration: "2017 – 2023",
     title:
       "Staking contracts and dApp interfaces on EVM chains (Binance Smart Chain, Ethereum), Web3 project sites, and technical writing for notable privacy-focused Web3 protocols. Also ran community channels for several of these projects.",
   },

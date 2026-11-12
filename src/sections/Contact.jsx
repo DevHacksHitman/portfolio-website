@@ -157,31 +157,25 @@ const Contact = () => {
             </p>
 
             <p className="contact-details_label">Elsewhere</p>
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <a
-                className="contact-details_link"
-                href={identity.github}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub ↗
-              </a>
-              <a
-                className="contact-details_link"
-                href={identity.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn ↗
-              </a>
-              <a
-                className="contact-details_link"
-                href={identity.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Telegram ↗
-              </a>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              {[
+                { label: "GitHub", href: identity.github },
+                { label: "LinkedIn", href: identity.linkedin },
+                { label: "Telegram", href: identity.telegram },
+              ].map((link) => (
+                <a
+                  key={link.label}
+                  className="contact-details_link text-body"
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                  <span aria-hidden="true" className="ml-1">
+                    ↗
+                  </span>
+                </a>
+              ))}
             </div>
           </aside>
         </div>

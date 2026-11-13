@@ -36,7 +36,9 @@ const App = () => {
       title = `Posts — ${SITE_NAME}`;
       description = "Short pieces about decisions inside my public repositories.";
     } else if (pathname.startsWith("/posts/")) {
-      const post = getPost(pathname.slice("/posts/".length));
+      const post = getPost(
+        pathname.replace(/^\/posts\/?/, "").replace(/\/index\.html$/, "").replace(/\/+$/, "")
+      );
       if (post) {
         title = `${post.title} — ${SITE_NAME}`;
         description = post.summary || description;
@@ -48,8 +50,14 @@ const App = () => {
     if (meta && description) meta.setAttribute("content", description);
   }, [pathname]);
 
-  const isArchive = pathname === "/posts";
-  const isSinglePost = pathname.startsWith("/posts/");
+  // Tolerate "/posts/slug", "/posts/slug/" and "/posts/slug/index.html" — a
+  // static host may serve the generated file at any of those shapes.
+  const postSlug = pathname
+    .replace(/^\/posts\/?/, "")
+    .replace(/\/index\.html$/, "")
+    .replace(/\/+$/, "");
+  const isArchive = pathname === "/posts" || pathname === "/posts/";
+  const isSinglePost = !isArchive && pathname.startsWith("/posts/");
 
   return (
     <>
@@ -64,7 +72,7 @@ const App = () => {
         {isArchive ? (
           <PostsIndex />
         ) : isSinglePost ? (
-          <PostPage slug={pathname.slice("/posts/".length)} />
+          <PostPage slug={postSlug} />
         ) : (
           <Home />
         )}

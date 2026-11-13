@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { navLinks } from "../constants/index.js";
+import { Link } from "../lib/router.jsx";
 
-const NavItems = () => {
+const NavItems = ({ onNavigate }) => {
   return (
     <ul className="nav-ul">
       {navLinks.map(({ id, href, name }) => (
         <li key={id} className="nav-li">
-          <a href={href} className="nav-li_a">
+          <Link to={href} className="nav-li_a" onClick={onNavigate}>
             {name}
-          </a>
+          </Link>
         </li>
       ))}
     </ul>
@@ -17,6 +18,7 @@ const NavItems = () => {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const close = () => setIsOpen(false);
   const toggleMenu = () => setIsOpen((prevIsOpen) => !prevIsOpen);
 
   useEffect(() => {
@@ -29,15 +31,16 @@ const Navbar = () => {
   }, [isOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center py-5 mx-auto c-space">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="text-neutral-400 font-bold text-xl hover:text-white transition-colors"
+            onClick={close}
           >
             Dev_Kik
-          </a>
+          </Link>
 
           <button
             onClick={toggleMenu}
@@ -62,7 +65,7 @@ const Navbar = () => {
       {isOpen && (
         <div id="mobile-nav" className="nav-sidebar max-h-screen">
           <nav aria-label="Mobile" className="p-5">
-            <NavItems />
+            <NavItems onNavigate={close} />
           </nav>
         </div>
       )}

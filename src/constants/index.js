@@ -11,10 +11,11 @@ export const identity = {
 };
 
 export const navLinks = [
-  { id: 1, name: "Home", href: "#home" },
-  { id: 2, name: "About", href: "#about" },
-  { id: 3, name: "Work", href: "#work" },
-  { id: 4, name: "Contact", href: "#contact" },
+  { id: 1, name: "Home", href: "/#home" },
+  { id: 2, name: "About", href: "/#about" },
+  { id: 3, name: "Work", href: "/#work" },
+  { id: 4, name: "Posts", href: "/posts" },
+  { id: 5, name: "Contact", href: "/#contact" },
 ];
 
 // Real, public repositories. The card art is the real terminal output of each

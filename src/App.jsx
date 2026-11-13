@@ -1,16 +1,56 @@
-import { lazy, Suspense } from "react";
+import { useEffect } from "react";
 import Navbar from "./sections/Navbar.jsx";
-import Hero from "./sections/Hero.jsx";
-import About from "./sections/About.jsx";
-import Projects from "./sections/Projects.jsx";
-import Contact from "./sections/Contact.jsx";
 import Footer from "./sections/Footer.jsx";
-import Experience from "./sections/Experience.jsx";
-import Reveal from "./components/Reveal.jsx";
+import Home from "./pages/Home.jsx";
+import PostsIndex from "./pages/PostsIndex.jsx";
+import PostPage from "./pages/PostPage.jsx";
+import { Link, useLocation } from "./lib/router.jsx";
+import { getPost } from "./lib/posts.js";
 
-const TrackRecord = lazy(() => import("./sections/TrackRecord.jsx"));
+const SITE_NAME = "AbdulAzeez Animashaun";
 
 const App = () => {
+  const { pathname, hash } = useLocation();
+
+  // Scroll: to the section when there is a hash, otherwise to the top of the page.
+  useEffect(() => {
+    if (hash) {
+      const node = document.getElementById(hash.slice(1));
+      if (node) {
+        window.requestAnimationFrame(() =>
+          node.scrollIntoView({ behavior: "smooth", block: "start" })
+        );
+        return;
+      }
+    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [pathname, hash]);
+
+  // Per-route title and description, so a shared post link previews correctly.
+  useEffect(() => {
+    let title = `${SITE_NAME} — Software Engineer`;
+    let description =
+      "Backend systems, real-time data pipelines and AI-agent tooling, built in public.";
+
+    if (pathname === "/posts") {
+      title = `Posts — ${SITE_NAME}`;
+      description = "Short pieces about decisions inside my public repositories.";
+    } else if (pathname.startsWith("/posts/")) {
+      const post = getPost(pathname.slice("/posts/".length));
+      if (post) {
+        title = `${post.title} — ${SITE_NAME}`;
+        description = post.summary || description;
+      }
+    }
+
+    document.title = title;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta && description) meta.setAttribute("content", description);
+  }, [pathname]);
+
+  const isArchive = pathname === "/posts";
+  const isSinglePost = pathname.startsWith("/posts/");
+
   return (
     <>
       <a
@@ -21,25 +61,17 @@ const App = () => {
       </a>
       <Navbar />
       <main id="main" className="max-w-7xl mx-auto">
-        <Hero />
-        <Reveal>
-          <About />
-        </Reveal>
-        <Reveal>
-          <Projects />
-        </Reveal>
-        <Reveal>
-          <Experience />
-        </Reveal>
-        <Suspense fallback={<div className="h-40" />}>
-          <TrackRecord />
-        </Suspense>
-        <Reveal>
-          <Contact />
-        </Reveal>
+        {isArchive ? (
+          <PostsIndex />
+        ) : isSinglePost ? (
+          <PostPage slug={pathname.slice("/posts/".length)} />
+        ) : (
+          <Home />
+        )}
       </main>
       <Footer />
     </>
   );
 };
+
 export default App;

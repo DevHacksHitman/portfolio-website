@@ -29,6 +29,14 @@ export const myProjects = [
     subdesc:
       "The interesting part is the threat model: a loopback-only Host allowlist that never auto-trusts the bind address, atomic cancel semantics under a single mutex, a bounded task registry, and a mocked-subprocess test suite that proves the cancel race cannot be lost.",
     href: "https://github.com/DevHacksHitman/hundjager",
+    slug: "hundjager",
+    ogImage: "/assets/og/work-hundjager.png",
+    highlights: [
+      "One 829-line Python file, standard library only: no pip install, no packages, no build step.",
+      "Loopback-only Host allowlist — the bind address is never trusted on its own.",
+      "Cancellation is decided under the same lock as the spawn, so a cancel cannot be lost.",
+      "33 tests run yt-dlp as a fake subprocess, so CI never touches the network.",
+    ],
     art: {
       kind: "image",
       src: "/assets/projects/hundjager.png",
@@ -79,6 +87,14 @@ export const myProjects = [
     subdesc:
       "Honest scope: this is a market-data monitor, not a trading system. The free-tier limits are documented at three layers, and the listener stores what the RPC actually returned rather than inferring values it never saw.",
     href: "https://github.com/DevHacksHitman/solana-liquidity-stream-tracker",
+    slug: "solana-liquidity-stream-tracker",
+    ogImage: "/assets/og/work-solana-liquidity-stream-tracker.png",
+    highlights: [
+      "Async WebSocket listener that reconnects with jittered exponential backoff.",
+      "Dedupe by transaction signature, so a replayed or retried event is stored once.",
+      "SQLite store and a React ticker that streams the same rows to the browser.",
+      "The free-tier limits are documented in the widget, the README and the example env file.",
+    ],
     art: {
       kind: "image",
       src: "/assets/projects/tracker-ticker.png",
@@ -98,6 +114,15 @@ export const myProjects = [
     subdesc:
       "Built for the MetaMask Smart Accounts Kit x 1Shot API x Venice AI Dev Cook Off. The boundary is written down: paid state is only rendered when the relayer confirms it, and mainnet wording stays gated until the send is terminal.",
     href: "https://github.com/DevHacksHitman/HALO",
+    slug: "halo",
+    ogImage: "/assets/og/work-halo.png",
+    demo: "https://halofund.vercel.app",
+    highlights: [
+      "Donors grant scoped MetaMask permissions instead of handing over custody.",
+      "An AI verifier checks receipts while separate agent lanes keep verifier and treasurer authority apart.",
+      "Paid state is only rendered when the relayer confirms the send.",
+      "Deployed on Base Sepolia; mainnet wording stays gated until the send is terminal.",
+    ],
     art: {
       kind: "image",
       src: "/assets/projects/halo.png",
@@ -243,3 +268,11 @@ export const workExperiences = [
       "Biology education degree, followed by NYSC (2012/2013). The science training and the classroom years are what I bring to systems work: state the claim, show the evidence, explain the method.",
   },
 ];
+
+// Projects with a dedicated /work/<slug> page. A project appears here when it
+// has a real interface worth showing as a link preview: the page carries its
+// own OG image, and the repository link lives inside it.
+export const workProjects = myProjects.filter((project) => project.slug);
+
+export const getWorkProject = (slug) =>
+  workProjects.find((project) => project.slug === slug) || null;

@@ -4,10 +4,20 @@ import Footer from "./sections/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import PostsIndex from "./pages/PostsIndex.jsx";
 import PostPage from "./pages/PostPage.jsx";
-import { Link, useLocation } from "./lib/router.jsx";
+import WorkPage from "./pages/WorkPage.jsx";
+import { useLocation } from "./lib/router.jsx";
 import { getPost } from "./lib/posts.js";
+import { getWorkProject } from "./constants/index.js";
 
 const SITE_NAME = "AbdulAzeez Animashaun";
+
+// Tolerate "/posts/slug", "/posts/slug/" and "/posts/slug/index.html" — a
+// static host may serve the generated file at any of those shapes.
+const readSlug = (pathname, base) =>
+  pathname
+    .replace(new RegExp(`^${base}/?`), "")
+    .replace(/\/index\.html$/, "")
+    .replace(/\/+$/, "");
 
 const App = () => {
   const { pathname, hash } = useLocation();
@@ -36,12 +46,16 @@ const App = () => {
       title = `Posts — ${SITE_NAME}`;
       description = "Short pieces about decisions inside my public repositories.";
     } else if (pathname.startsWith("/posts/")) {
-      const post = getPost(
-        pathname.replace(/^\/posts\/?/, "").replace(/\/index\.html$/, "").replace(/\/+$/, "")
-      );
+      const post = getPost(readSlug(pathname, "/posts"));
       if (post) {
         title = `${post.title} — ${SITE_NAME}`;
         description = post.summary || description;
+      }
+    } else if (pathname.startsWith("/work/")) {
+      const project = getWorkProject(readSlug(pathname, "/work"));
+      if (project) {
+        title = `${project.title.split(" — ")[0]} — ${SITE_NAME}`;
+        description = project.desc;
       }
     }
 
@@ -50,14 +64,12 @@ const App = () => {
     if (meta && description) meta.setAttribute("content", description);
   }, [pathname]);
 
-  // Tolerate "/posts/slug", "/posts/slug/" and "/posts/slug/index.html" — a
-  // static host may serve the generated file at any of those shapes.
-  const postSlug = pathname
-    .replace(/^\/posts\/?/, "")
-    .replace(/\/index\.html$/, "")
-    .replace(/\/+$/, "");
+  // Tolerate the same path shapes for work pages as for posts.
+  const postSlug = readSlug(pathname, "/posts");
+  const workSlug = readSlug(pathname, "/work");
   const isArchive = pathname === "/posts" || pathname === "/posts/";
   const isSinglePost = !isArchive && pathname.startsWith("/posts/");
+  const isWork = pathname.startsWith("/work/");
 
   return (
     <>
@@ -73,6 +85,8 @@ const App = () => {
           <PostsIndex />
         ) : isSinglePost ? (
           <PostPage slug={postSlug} />
+        ) : isWork ? (
+          <WorkPage slug={workSlug} />
         ) : (
           <Home />
         )}

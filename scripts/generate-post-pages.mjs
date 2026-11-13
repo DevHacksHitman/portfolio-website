@@ -19,6 +19,7 @@
 import { mkdirSync, readFileSync, existsSync, writeFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { workProjects } from "../src/constants/index.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "..");
@@ -61,7 +62,7 @@ function setTag(html, needle, attribute, value) {
   return html.replace(pattern, `$1${escapeHtml(value)}$2`);
 }
 
-function buildHead(html, { title, description, url }) {
+function buildHead(html, { title, description, url, image, imageAlt }) {
   let out = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`);
   out = setTag(out, 'name="description"', "content", description);
   out = setTag(out, 'property="og:title"', "content", title);
@@ -70,6 +71,11 @@ function buildHead(html, { title, description, url }) {
   out = setTag(out, 'name="twitter:title"', "content", title);
   out = setTag(out, 'name="twitter:description"', "content", description);
   out = setTag(out, 'rel="canonical"', "href", url);
+  if (image) {
+    out = setTag(out, 'property="og:image"', "content", image);
+    out = setTag(out, 'name="twitter:image"', "content", image);
+    if (imageAlt) out = setTag(out, 'property="og:image:alt"', "content", imageAlt);
+  }
   return out;
 }
 
@@ -108,11 +114,12 @@ function withNoScript(html, { title, body, repo }) {
   return html.replace("</body>", `${block}\n  </body>`);
 }
 
-function writeSitemap(entries) {
+function writeSitemap(entries, workEntries) {
   const urls = [
     { loc: `${SITE}/`, lastmod: entries[0]?.date },
     { loc: `${SITE}/posts`, lastmod: entries[0]?.date },
     ...entries.map((entry) => ({ loc: `${SITE}/posts/${entry.slug}`, lastmod: entry.date })),
+    ...workEntries.map((entry) => ({ loc: `${SITE}/work/${entry.slug}` })),
   ];
   const body = urls
     .map(
@@ -161,6 +168,58 @@ ${items}
   writeFileSync(join(DIST, "posts", "feed.xml"), xml, "utf8");
 }
 
+function writeWorkPage(base, project, workEntries) {
+  const shortTitle = project.title.split(" — ")[0];
+  const url = `${SITE}/work/${project.slug}`;
+  const description = project.desc;
+  const image = `${SITE}${project.ogImage}`;
+  const title = `${shortTitle} — ${AUTHOR}`;
+
+  let html = buildHead(base, {
+    title,
+    description,
+    url,
+    image,
+    imageAlt: `${shortTitle}: ${project.art?.alt || description}`,
+  });
+
+  const payload = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    name: shortTitle,
+    description,
+    url,
+    codeRepository: project.href,
+    keywords: project.tags.map((tag) => tag.name).join(", "),
+    author: { "@type": "Person", name: AUTHOR, url: SITE },
+  };
+  const json = JSON.stringify(payload).replace(/</g, "\\u003c");
+  html = html.replace(
+    "</head>",
+    `  <script type="application/ld+json">${json}</script>\n  </head>`
+  );
+
+  const links = [`<a style="color: #3fb950;" href="${escapeHtml(project.href)}">Repository on GitHub</a>`];
+  if (project.demo) {
+    links.push(`<a style="color: #3fb950;" href="${escapeHtml(project.demo)}">Live demo</a>`);
+  }
+  const block = `
+    <noscript>
+      <article style="max-width: 640px; margin: 12vh auto; padding: 0 24px; color: #E4E4E6; font-family: system-ui, sans-serif;">
+        <h1 style="font-size: 1.6rem;">${escapeHtml(shortTitle)}</h1>
+        <p style="color: #AFB0B6; line-height: 1.7;">${escapeHtml(description)}</p>
+        <p style="color: #AFB0B6; line-height: 1.7;">${escapeHtml(project.subdesc)}</p>
+        <p>${links.join(" · ")}</p>
+        <p><a style="color: #3fb950;" href="/#work">Selected work</a> · <a style="color: #3fb950;" href="/">Home</a></p>
+      </article>
+    </noscript>`;
+  html = html.replace("</body>", `${block}\n  </body>`);
+
+  const target = join(DIST, "work", project.slug);
+  mkdirSync(target, { recursive: true });
+  writeFileSync(join(target, "index.html"), html, "utf8");
+}
+
 function main() {
   const indexFile = join(DIST, "index.html");
   if (!existsSync(indexFile)) {
@@ -200,6 +259,9 @@ function main() {
 
   entries.sort((a, b) => (a.date < b.date ? 1 : -1));
 
+  const workEntries = workProjects.map((project) => ({ slug: project.slug }));
+  for (const project of workProjects) writeWorkPage(base, project, workEntries);
+
   const archive = buildHead(base, {
     title: `Posts — ${AUTHOR}`,
     description: "Short pieces about decisions inside my public repositories.",
@@ -208,11 +270,11 @@ function main() {
   mkdirSync(join(DIST, "posts"), { recursive: true });
   writeFileSync(join(DIST, "posts", "index.html"), archive, "utf8");
 
-  writeSitemap(entries);
+  writeSitemap(entries, workEntries);
   writeFeed(entries);
 
   console.log(
-    `generate-post-pages: ${count} post page(s) + archive + sitemap.xml + posts/feed.xml`
+    `generate-post-pages: ${count} post page(s) + archive + ${workEntries.length} work page(s) + sitemap.xml + posts/feed.xml`
   );
 }
 

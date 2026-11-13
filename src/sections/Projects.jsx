@@ -99,11 +99,11 @@ const Projects = () => {
               lines={currentProject.art.lines}
             />
           ) : currentProject.art?.kind === "image" ? (
-            <figure className="relative h-full w-full overflow-hidden">
+            <figure className="relative flex h-full w-full items-center justify-center overflow-hidden bg-black-200">
               <img
                 src={currentProject.art.src}
                 alt={currentProject.art.alt}
-                className="h-full w-full object-cover object-top"
+                className="max-h-full max-w-full object-contain"
                 loading="lazy"
               />
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent px-4 pb-3 pt-8 text-[10px] uppercase tracking-[0.2em] text-white-600/80">

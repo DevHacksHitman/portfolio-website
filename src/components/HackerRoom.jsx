@@ -5,8 +5,8 @@ import { useGLTF, useTexture } from '@react-three/drei';
 const HackerRoom = (props) => {
     const { nodes, materials } = useGLTF('/models/hacker-room.glb');
 
-    const monitortxt = useTexture('textures/desk/monitor.png');
-    const screenTxt = useTexture('textures/desk/screen.png');
+    const monitortxt = useTexture('/textures/desk/monitor.png');
+    const screenTxt = useTexture('/textures/desk/screen.png');
 
     return (
         <group {...props} dispose={null}>

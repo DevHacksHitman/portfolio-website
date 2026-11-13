@@ -1,14 +1,19 @@
 /**
- * Post-build: give every post its own static HTML head.
+ * Post-build: static metadata for the writing section.
  *
  * The site is client-rendered, so a crawler fetching /posts/<slug> would see the
  * base document — meaning a shared post link previewed with the site's card
  * instead of the post's own title. This script reads the built index.html and
- * the markdown posts, then writes /posts/<slug>/index.html for each one with
- * the title, description and Open Graph tags injected. The SPA still boots and
- * renders the post; crawlers and link previews now see the right metadata.
+ * the markdown posts, then writes:
  *
- * No dependencies. Runs as part of `npm run build`.
+ *   /posts/<slug>/index.html   per-post title, description, OG/Twitter tags,
+ *                              JSON-LD BlogPosting, and a <noscript> preview
+ *   /posts/index.html          the archive head
+ *   /sitemap.xml               home, archive and every post
+ *   /posts/feed.xml            RSS 2.0 feed
+ *
+ * The SPA still boots and renders the post; crawlers, link previews and feed
+ * readers now see the right thing. No dependencies. Runs as part of `npm run build`.
  */
 
 import { mkdirSync, readFileSync, existsSync, writeFileSync, readdirSync } from "node:fs";
@@ -29,9 +34,11 @@ const escapeHtml = (value) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+const escapeXml = escapeHtml;
+
 function frontMatter(raw) {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!match) return {};
+  if (!match) return { meta: {}, body: raw };
   const meta = {};
   for (const line of match[1].split(/\r?\n/)) {
     const index = line.indexOf(":");
@@ -41,7 +48,7 @@ function frontMatter(raw) {
       if (key) meta[key] = value;
     }
   }
-  return meta;
+  return { meta, body: match[2] };
 }
 
 /** Replace the content of a meta/link tag matched by an attribute fragment. */
@@ -66,17 +73,92 @@ function buildHead(html, { title, description, url }) {
   return out;
 }
 
+function withJsonLd(html, { title, description, url, date }) {
+  const payload = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    url,
+    datePublished: date || undefined,
+    author: { "@type": "Person", name: AUTHOR, url: SITE },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  };
+  const json = JSON.stringify(payload).replace(/</g, "\\u003c");
+  return html.replace(
+    "</head>",
+    `  <script type="application/ld+json">${json}</script>\n  </head>`
+  );
+}
+
 function withNoScript(html, { title, body, repo }) {
   const block = `
     <noscript>
       <article style="max-width: 640px; margin: 12vh auto; padding: 0 24px; color: #E4E4E6; font-family: system-ui, sans-serif;">
         <h1 style="font-size: 1.6rem;">${escapeHtml(title)}</h1>
-        <div style="color: #AFB0B6; line-height: 1.7; white-space: pre-line;">${escapeHtml(body.slice(0, 600))}</div>
-        <p><a style="color: #3fb950;" href="${escapeHtml(repo || "/posts")}">${escapeHtml(repo || "All posts")}</a></p>
+        <div style="color: #AFB0B6; line-height: 1.7; white-space: pre-line;">${escapeHtml(
+          body.replace(/[#*`>]/g, "").slice(0, 600)
+        )}</div>
+        <p><a style="color: #3fb950;" href="${escapeHtml(repo || "/posts")}">${escapeHtml(
+          repo ? "The repository behind this post" : "All posts"
+        )}</a></p>
         <p><a style="color: #3fb950;" href="/posts">All posts</a> · <a style="color: #3fb950;" href="/">Home</a></p>
       </article>
     </noscript>`;
   return html.replace("</body>", `${block}\n  </body>`);
+}
+
+function writeSitemap(entries) {
+  const urls = [
+    { loc: `${SITE}/`, lastmod: entries[0]?.date },
+    { loc: `${SITE}/posts`, lastmod: entries[0]?.date },
+    ...entries.map((entry) => ({ loc: `${SITE}/posts/${entry.slug}`, lastmod: entry.date })),
+  ];
+  const body = urls
+    .map(
+      ({ loc, lastmod }) =>
+        `  <url><loc>${escapeXml(loc)}</loc>${lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : ""}</url>`
+    )
+    .join("\n");
+  writeFileSync(
+    join(DIST, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`,
+    "utf8"
+  );
+}
+
+function writeFeed(entries) {
+  const items = entries
+    .map((entry) => {
+      const pubDate = entry.date ? new Date(`${entry.date}T00:00:00Z`).toUTCString() : "";
+      return [
+        "    <item>",
+        `      <title>${escapeXml(entry.title)}</title>`,
+        `      <link>${escapeXml(`${SITE}/posts/${entry.slug}`)}</link>`,
+        `      <guid isPermaLink="true">${escapeXml(`${SITE}/posts/${entry.slug}`)}</guid>`,
+        pubDate ? `      <pubDate>${pubDate}</pubDate>` : null,
+        `      <description>${escapeXml(entry.summary)}</description>`,
+        "    </item>",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    })
+    .join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes — ${escapeXml(AUTHOR)}</title>
+    <link>${SITE}/posts</link>
+    <description>Short pieces about decisions inside my public repositories.</description>
+    <language>en</language>
+    <atom:link href="${SITE}/posts/feed.xml" rel="self" type="application/rss+xml" />
+${items}
+  </channel>
+</rss>
+`;
+  mkdirSync(join(DIST, "posts"), { recursive: true });
+  writeFileSync(join(DIST, "posts", "feed.xml"), xml, "utf8");
 }
 
 function main() {
@@ -92,26 +174,32 @@ function main() {
 
   const base = readFileSync(indexFile, "utf8");
   const files = readdirSync(POSTS_DIR).filter((name) => name.endsWith(".md"));
+  const entries = [];
   let count = 0;
 
   for (const file of files) {
     const slug = file.replace(/\.md$/, "");
     const raw = readFileSync(join(POSTS_DIR, file), "utf8");
-    const meta = frontMatter(raw);
-    const title = `${meta.title || slug} — ${AUTHOR}`;
+    const { meta, body } = frontMatter(raw);
+    const plainTitle = meta.title || slug;
+    const title = `${plainTitle} — ${AUTHOR}`;
     const description = meta.summary || `Notes from ${AUTHOR} on building software in public.`;
     const url = `${SITE}/posts/${slug}`;
 
     let html = buildHead(base, { title, description, url });
-    html = withNoScript(html, { title: meta.title || slug, body: raw.split(/\r?\n---\r?\n/).pop(), repo: meta.repo });
+    html = withJsonLd(html, { title: plainTitle, description, url, date: meta.date });
+    html = withNoScript(html, { title: plainTitle, body, repo: meta.repo });
 
     const target = join(DIST, "posts", slug);
     mkdirSync(target, { recursive: true });
     writeFileSync(join(target, "index.html"), html, "utf8");
+
+    entries.push({ slug, title: plainTitle, summary: description, date: meta.date || "", repo: meta.repo || "" });
     count += 1;
   }
 
-  // The archive itself
+  entries.sort((a, b) => (a.date < b.date ? 1 : -1));
+
   const archive = buildHead(base, {
     title: `Posts — ${AUTHOR}`,
     description: "Short pieces about decisions inside my public repositories.",
@@ -120,7 +208,12 @@ function main() {
   mkdirSync(join(DIST, "posts"), { recursive: true });
   writeFileSync(join(DIST, "posts", "index.html"), archive, "utf8");
 
-  console.log(`generate-post-pages: wrote ${count} post page(s) + the archive`);
+  writeSitemap(entries);
+  writeFeed(entries);
+
+  console.log(
+    `generate-post-pages: ${count} post page(s) + archive + sitemap.xml + posts/feed.xml`
+  );
 }
 
 main();

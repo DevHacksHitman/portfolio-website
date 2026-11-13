@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-
 /**
  * A small markdown subset renderer: headings, paragraphs, lists, fenced code,
  * blockquotes, rules, plus inline code, bold and links. Enough for technical
@@ -167,4 +165,3 @@ export function renderMarkdown(markdown) {
   });
 }
 
-export { Fragment };

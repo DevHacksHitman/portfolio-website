@@ -30,7 +30,7 @@ const App = () => {
   useEffect(() => {
     let title = `${SITE_NAME} — Software Engineer`;
     let description =
-      "Backend systems, real-time data pipelines and AI-agent tooling, built in public.";
+      "Backend engineering, real-time data pipelines and agentic tooling, built in public.";
 
     if (pathname === "/posts") {
       title = `Posts — ${SITE_NAME}`;

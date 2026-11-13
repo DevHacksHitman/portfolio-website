@@ -6,7 +6,7 @@ export const identity = {
   timezone: "WAT (UTC+1)",
   email: "devhacksassassin@gmail.com",
   github: "https://github.com/DevHacksHitman",
-  linkedin: "https://www.linkedin.com/in/abdulazeez-animashaun-3523693b0/",
+  linkedin: "https://www.linkedin.com/in/abdulazeez-animashaun-devkik/",
   telegram: "https://t.me/kriev_mev",
 };
 
